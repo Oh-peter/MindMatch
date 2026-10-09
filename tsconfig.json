@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -15,16 +11,16 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "incremental": true,
-    /* 💡 절대 경로 별칭(Path Alias) 설정 시스템 */
-    "baseUrl": ".",
+    
+    /* ❌ 에러의 주범인 "baseUrl": "." 옵션을 완전히 삭제했습니다. */
+
+    /* 💡 대신, 최신 컴파일러 표준 권장 규격에 맞춰 paths의 절대 기준점을 직접 지정합니다. */
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     },
-    /* Next.js 15 & React 19 프레임워크 플러그인 맵핑 */
+    
     "plugins": [
       {
         "name": "next"
@@ -32,13 +28,10 @@
     ]
   },
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
+    "next-env.d.ts", 
+    "**/*.ts", 
+    "**/*.tsx", 
+    ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
