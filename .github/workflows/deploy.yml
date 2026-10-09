@@ -1,0 +1,44 @@
+# .github/workflows/deploy.yml
+name: MindMatch 프로덕션 자동 배포 파이프라인 (Vercel Integration)
+
+on:
+  push:
+    branches: [ "main" ] # main 브랜치에 코드가 push 되거나 merge 될 때 파이프라인 트리거 실행
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. GitHub 저장소의 최신 소스코드를 가상 빌드 머신으로 체크아웃
+      - name: 소스코드 체크아웃
+        uses: actions/checkout@v4
+
+      # 2. Next.js 16 및 React 19 환경과 정렬된 Node.js 버전 세팅
+      - name: Node.js 개발 환경 인프라 세팅
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm' # npm 종속성 패키지 캐싱을 통한 빌드 속도 부스팅
+
+      # 3. 깨끗한 프로덕션 종속성 라이브러리 설치
+      - name: 의존성 패키지 설치
+        run: npm ci
+
+      # 4. 타입 체크 및 정적 분석 테스트 수행 (배포 전 코드 결함 원천 차단)
+      - name: TypeScript 빌드 및 컴파일 유효성 검사
+        run: npm run build
+        env:
+          # 빌드 타임에 Firebase Admin 유틸이 크래시 나지 않도록 가상 임시 환경변수 매핑
+          FIREBASE_PROJECT_ID: "mock-id"
+          FIREBASE_CLIENT_EMAIL: "mock-email"
+          FIREBASE_PRIVATE_KEY: "-----BEGIN PRIVATE KEY-----\nMOCK\n-----END PRIVATE KEY-----"
+
+      # 5. Vercel 공식 액션을 통한 무중단 프로덕션 배포 홉 가동
+      - name: Vercel 프로덕션 최종 배포 실행
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }} # Vercel 계정 보안 토큰 (GitHub Secrets에 등록)
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }} # Vercel 조직 ID
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }} # Vercel 프로젝트 ID
+          vercel-args: '--prod' # 상용 프로덕션 환경 도메인 반영 옵션
