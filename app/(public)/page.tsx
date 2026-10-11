@@ -106,10 +106,10 @@ export default async function Home() {
             <span className={styles.foot}>{latestId ? '최근 결과 열기' : '검사를 마치면 열려요'}</span>
           </Link>
 
-          <Link href="/community" className={`${styles.glass} ${styles.step}`} data-step="3">
+          <Link href="/match" className={`${styles.glass} ${styles.step}`} data-step="3">
             <span className={styles.pill}>3단계</span>
-            <h2>커뮤니티</h2>
-            <p>같은 유형의 사람들과 이야기를 나눠요.</p>
+            <h2>궁합 보기</h2>
+            <p>나와 잘 맞는 유형을 찾고, 친구와 궁합도 비교해요.</p>
             <span className={styles.foot}>{user ? '입장하기' : '로그인 후 이용해요'}</span>
           </Link>
         </section>

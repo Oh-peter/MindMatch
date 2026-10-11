@@ -1,5 +1,6 @@
 import { createPost } from '@/actions/community'
 import { adminDb } from '@/lib/firebaseAdmin'
+import { requireUser } from '@/lib/auth'   //궁합 추가
 
 type Post = { id: string; title: string; content: string; authorName: string; createdAt: number }
 
@@ -10,6 +11,7 @@ const dateFormat = new Intl.DateTimeFormat('ko-KR', {
 })
 
 export default async function CommunityPage() {
+  await requireUser('/community')   //궁합 추가
   const snap = await adminDb.collection('posts').orderBy('createdAt', 'desc').limit(30).get()
   const posts: Post[] = snap.docs.map((d) => ({
     id: d.id,

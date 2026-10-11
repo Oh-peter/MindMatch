@@ -5,6 +5,7 @@ import Logo from './Logo'
 
 const NAV = [
   { href: '/test', label: '성격 검사' },
+  { href: '/match', label: '궁합' },
   { href: '/community', label: '커뮤니티' },
 ]
 

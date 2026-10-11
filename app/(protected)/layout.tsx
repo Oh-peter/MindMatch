@@ -1,8 +1,4 @@
-import { redirect } from 'next/navigation'
-import { getSessionUser } from '@/lib/session'
-
-export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
-  const user = await getSessionUser()
-  if (!user) redirect('/login?next=/community')
+// 로그인 확인은 각 페이지에서 requireUser(next)로 합니다.
+export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }

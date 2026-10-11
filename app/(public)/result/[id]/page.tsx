@@ -98,7 +98,10 @@ export default async function ResultPage({ params }: Props) {
         지금까지 검사한 사람 중 {ratio}%가 {result.type}입니다.
       </p>
 
-      <Link href={`/result/${id}/card`}>동식물 카드 보기</Link>
+      <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+        <Link href={`/result/${id}/card`}>동식물 카드 보기</Link>
+        <Link href="/match">궁합 보기</Link>
+      </div>
     </main>
   )
 }
